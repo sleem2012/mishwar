@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "157850260344",
+    "project_id": "mishwar-869b4",
+    "storage_bucket": "mishwar-869b4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:157850260344:android:ba4e813bb6f12c82a5ee8d",
+        "android_client_info": {
+          "package_name": "com.app.mishwar"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "157850260344-fi2nivnmu9luf39r3v0mmu6kec212k9e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBKefXBjNTOBW4bWqaSmBQnE-a_k7S7txQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "157850260344-fi2nivnmu9luf39r3v0mmu6kec212k9e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
