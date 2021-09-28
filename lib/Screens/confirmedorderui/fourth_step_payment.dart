@@ -216,7 +216,7 @@ class _FourthStepPaymentState extends State<FourthStepPayment> {
                   SizedBox(height: MediaQuery.of(context).size.height*.02,),
                   Column(
                     children: [
-                      Container(
+                       Container(
                         width: MediaQuery.of(context).size.width*.25,
                         height: MediaQuery.of(context).size.width*.25,
                         child: Container(
@@ -367,20 +367,20 @@ class _FourthStepPaymentState extends State<FourthStepPayment> {
                     function: () {
                       if(payment==null){
                         Toast.show(
-                            DemoLocalizations.of(context)
+                             DemoLocalizations.of(context)
                                 .title['Pleasechooseapaymentmethod']
                             , context,
                             duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
                       }
                       else
-                      {   Navigator.pushReplacement(
-                        context,
-                        PageRouteBuilder(
-                          pageBuilder: (context, animation1, animation2) =>
-                              FifthStepConfirm(),
-                          transitionDuration: Duration(seconds: 0),
-                        ),
-                      );}
+                        {   Navigator.pushReplacement(
+                          context,
+                          PageRouteBuilder(
+                            pageBuilder: (context, animation1, animation2) =>
+                                FifthStepConfirm(),
+                            transitionDuration: Duration(seconds: 0),
+                          ),
+                        );}
 
 
                     },

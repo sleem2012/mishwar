@@ -172,7 +172,9 @@ class _state extends State<CartOrder>{
                           ),
                           Container(
                             width: MediaQuery.of(context).size.width*.55,
-                            child: Text(appConfig.prefs.getString('paymethod')
+                            child: Text(
+    "الدفع عند الاستلام"
+                              // appConfig.prefs.getString('paymethod')
                               ,style: TextStyle(fontSize: 12),),
                           )
                         ],

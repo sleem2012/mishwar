@@ -55,8 +55,8 @@ class _state extends State<CustomAppBar>{
                         ? Icon(Icons.arrow_back_ios_rounded, size: 25, color:Colors.white)
                         : Icon(Icons.arrow_forward_ios_rounded,
                         size:25, color:Colors.white)),
-                Expanded(child: Text(this.Title,style: TextStyle(color: Colors.white,fontSize: 18,fontWeight: FontWeight.w500),
-                textAlign: TextAlign.center,)),
+                Text(this.Title,style: TextStyle(color: Colors.white,fontSize: 18,fontWeight: FontWeight.w500),
+                textAlign: TextAlign.center,),
 
               ],
             ),
