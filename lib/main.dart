@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 
 import 'package:mishwar/Screens/Splash.dart';
 import 'package:mishwar/app/AppConfig.dart';
@@ -32,7 +33,9 @@ import 'test_ui.dart';
 Future<void> main() async {
   await appConfig.init();
   await appConfig.cApp.initLocal();
-   runApp(ParentPage());
+   runApp(
+       Phoenix(child:  ParentPage(),)
+      );
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 }

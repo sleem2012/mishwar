@@ -31,7 +31,7 @@ class LanguageUi extends StatelessWidget {
                     '/slider'
                     //userType=="2"?"/DeleverMain":"/mainPage",
                     ,(Route<dynamic> route) => false);
-                appConfig.cApp.changeLanguage(Locale('ar'));
+                appConfig.cApp.changeLanguage(Locale('ar'),context);
                 appConfig.prefs.setString('chooselang', 'yes');
 
               },
@@ -57,7 +57,7 @@ class LanguageUi extends StatelessWidget {
                     '/slider'
                     //userType=="2"?"/DeleverMain":"/mainPage",
                     ,(Route<dynamic> route) => false);
-                appConfig.cApp.changeLanguage(Locale('en'));
+                appConfig.cApp.changeLanguage(Locale('en'),context);
                 appConfig.prefs.setString('chooselang', 'yes');
 
               },

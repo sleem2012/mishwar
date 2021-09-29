@@ -38,14 +38,16 @@ mixin _$CApp on _CApp, Store {
   }
 
   @override
-  dynamic changeLanguage(Locale locale) {
+  dynamic changeLanguage(Locale locale,BuildContext context) async{
     final _$actionInfo =
         _$_CAppActionController.startAction(name: '_CApp.changeLanguage');
     try {
-      return super.changeLanguage(locale);
+      return super.changeLanguage(locale,context);
     } finally {
       _$_CAppActionController.endAction(_$actionInfo);
+
     }
+
   }
 
   @override

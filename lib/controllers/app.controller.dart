@@ -1,4 +1,6 @@
+
 import 'package:flutter/material.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:mishwar/app/AppConfig.dart';
 import 'package:mobx/mobx.dart';
 
@@ -18,10 +20,10 @@ abstract class _CApp with Store{
      print('${appConfig.prefs.getString('lang')},,,,,from shared pref');
   }
   @action
-  changeLanguage(Locale locale)
+  changeLanguage(Locale locale,BuildContext context)async
   {
     appLocale=locale;
     appConfig.prefs.setString('lang', locale.toString());
-
+    await Phoenix.rebirth(context);
   }
 }

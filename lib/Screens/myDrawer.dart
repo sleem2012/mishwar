@@ -1022,11 +1022,11 @@ class _state extends State<MyDrawer> {
                         child: Column(
                           children: [
                             GestureDetector(
-                              onTap: () {
-                                appConfig.cApp.changeLanguage(
+                              onTap: ()async {
+                           await     appConfig.cApp.changeLanguage(
                                     appConfig.prefs.getString('lang') == 'ar'
                                         ? Locale('en')
-                                        : Locale('ar'));
+                                        : Locale('ar'),context);
                                 print('${appConfig.cApp.appLocale},,,,,from inial');
                                print('${appConfig.prefs.getString('lang')},,,,,from shared pref');
                               },

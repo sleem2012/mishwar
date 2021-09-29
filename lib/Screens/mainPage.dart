@@ -382,13 +382,14 @@ class _state extends State<MainPage> {
                                                                         context)
                                                                     .size
                                                                     .width *
-                                                                .20,
+                                                                .27,
+
                                                             height: MediaQuery.of(
                                                                         context)
                                                                     .size
                                                                     .height *
                                                                 .120,
-                                                            fit: BoxFit.cover,
+                                                            fit: BoxFit.fill,
                                                           )
                                                         : FadeInImage.assetNetwork(
                                                             placeholder:
@@ -415,7 +416,7 @@ class _state extends State<MainPage> {
                                                                     .size
                                                                     .height *
                                                                 .120,
-                                                            fit: BoxFit.cover,
+                                                            fit: BoxFit.fill,
                                                           )),
                                                 SizedBox(
                                                   width: MediaQuery.of(context)

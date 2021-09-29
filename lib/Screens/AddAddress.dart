@@ -20,42 +20,49 @@ import 'package:google_maps_webservice/places.dart';
 
 import 'SearchLocation.dart';
 
-class AddAddress extends StatefulWidget{
+class AddAddress extends StatefulWidget {
   String type;
-  AddAddress(String type){
-    this.type=type;
+
+  AddAddress(String type) {
+    this.type = type;
   }
+
   @override
   State<StatefulWidget> createState() {
     return _state(this.type);
   }
 }
+
 class _state extends State<AddAddress> {
   String type;
 
   _state(String type) {
     this.type = type;
   }
- TextEditingController searchzone=new TextEditingController();
-  PickResult  _pickedLocation;
+
+  TextEditingController searchzone = new TextEditingController();
+  PickResult _pickedLocation;
 
   home h = new home();
   bool locationScreen = false;
   var key = "+966";
-  var key2="+966";
+  var key2 = "+966";
+
   //homeaddress workaddress other
-  List<String>addresstype =[];
-  List<RegionDetail>RegionList = [];
-  List<RegionDetail>RegionList0 = [];
+  List<String> addresstype = [];
+  List<RegionDetail> RegionList = [];
+  List<RegionDetail> RegionList0 = [];
   AddressServices addressServices = new AddressServices();
+
   loadData() async {
     RegionList0 = await addressServices.GetRegions();
-     setState(() {
-      RegionList=RegionList0;
+    setState(() {
+      RegionList = RegionList0;
     });
   }
+
   String SelectedRegion;
-  String SelectedRegionId='';
+  String SelectedRegionId = '';
   TextEditingController phone = new TextEditingController();
   TextEditingController search = new TextEditingController();
   TextEditingController phone2 = new TextEditingController();
@@ -78,126 +85,132 @@ class _state extends State<AddAddress> {
   List<Placemark> newPlace;
   CameraPosition c;
   bool isError = false;
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     loadData();
     setState(() {
-      phone.text=home.phone.substring(3);
-      key=home.phone.substring(0,3);
+      phone.text = home.phone.substring(3);
+      key = home.phone.substring(0, 3);
     });
-   }
+  }
+
   @override
   Widget build(BuildContext context) {
-    addresstype = [DemoLocalizations.of(context)
-        .title['homeaddress']
-      , DemoLocalizations.of(context)
-          .title['workaddress'], DemoLocalizations.of(context)
-          .title['other']];
+    addresstype = [
+      DemoLocalizations.of(context).title['homeaddress'],
+      DemoLocalizations.of(context).title['workaddress'],
+      DemoLocalizations.of(context).title['other']
+    ];
     return
-     // !locationScreen ?
-    SafeArea(
+        // !locationScreen ?
+        SafeArea(
       child: Scaffold(
-        key: _scaffoldKey,appBar: AppBar(automaticallyImplyLeading: false,elevation: 0.0,
-        backgroundColor: Color(0xffD4252F),title: Row(
-          children: [
-            GestureDetector(
-                onTap: (){
-                  Navigator.pop(context);
-                },
-                child:DemoLocalizations.of(context).locale == Locale("en")
-                    ? Icon(Icons.arrow_back_ios_rounded, size: 25, color:Colors.white)
-                    : Icon(Icons.arrow_forward_ios_rounded,
-                    size:25, color:Colors.white)),
-            Expanded(
-              child: Text(DemoLocalizations.of(context)
-                  .title['addnewadrress'],style: TextStyle(color: Colors.white,fontSize: 18,fontWeight: FontWeight.w500),
-                textAlign: TextAlign.center,),
+          key: _scaffoldKey,
+          appBar: AppBar(
+            automaticallyImplyLeading: false,
+            elevation: 0.0,
+            backgroundColor: Color(0xffD4252F),
+            title: Row(
+              children: [
+                GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: DemoLocalizations.of(context).locale == Locale("en")
+                        ? Icon(Icons.arrow_back_ios_rounded,
+                            size: 25, color: Colors.white)
+                        : Icon(Icons.arrow_forward_ios_rounded,
+                            size: 25, color: Colors.white)),
+                Expanded(
+                  child: Text(
+                    DemoLocalizations.of(context).title['addnewadrress'],
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),),
-        resizeToAvoidBottomInset: false,
-        //endDrawer: MyDrawer(-1),
-        body:RegionList0.length == 0 ?  Center(child: CircularProgressIndicator(),) :
-                 Container(height: MediaQuery.of(context).size.height,
-                     width:MediaQuery.of(context).size.width ,
-                   child: SingleChildScrollView(
-                     child: Form(
+          ),
+          resizeToAvoidBottomInset: false,
+          //endDrawer: MyDrawer(-1),
+          body: RegionList0.length == 0
+              ? Center(
+                  child: CircularProgressIndicator(),
+                )
+              : Container(
+                  height: MediaQuery.of(context).size.height,
+                  width: MediaQuery.of(context).size.width,
+                  child: SingleChildScrollView(
+                    child: Form(
                       key: formKey,
                       child: Container(
                         padding: EdgeInsets.only(
-                            left: MediaQuery
-                                .of(context)
-                                .size
-                                .width * .05,
-                            right: MediaQuery
-                                .of(context)
-                                .size
-                                .width * .05
-                        ),
+                            left: MediaQuery.of(context).size.width * .05,
+                            right: MediaQuery.of(context).size.width * .05),
                         child: Column(
                           children: [
-                            SizedBox(height: 15,),
+                            SizedBox(
+                              height: 15,
+                            ),
                             InkWell(
                               onTap: () {
                                 SelectRegion(context);
                               },
                               child: Container(
-                                width: MediaQuery
-                                    .of(context)
-                                    .size
-                                    .width,
-                                height: MediaQuery
-                                    .of(context)
-                                    .size
-                                    .height * .065,
-                                padding: EdgeInsets.only(
-                                    left: 10,
-                                    right: 10
-                                ),
+                                width: MediaQuery.of(context).size.width,
+                                height:
+                                    MediaQuery.of(context).size.height * .065,
+                                padding: EdgeInsets.only(left: 10, right: 10),
                                 decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.all(
-                                      Radius.circular(10)),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(10)),
                                   border: Border.all(
                                       color: isError && SelectedRegion == null
                                           ? Colors.red
-                                          : Color(h.borderColor), width: 1),
+                                          : Color(h.borderColor),
+                                      width: 1),
                                   color: Colors.white,
                                 ),
-
                                 child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text(SelectedRegion == null
-                                    //ChooseRegion
-                                        ? DemoLocalizations.of(context)
-                                        .title['ChooseRegion']
-
-                                        : SelectedRegion,
-                                      style: TextStyle(color: Colors.black45),),
+                                    Text(
+                                      SelectedRegion == null
+                                          //ChooseRegion
+                                          ? DemoLocalizations.of(context)
+                                              .title['ChooseRegion']
+                                          : SelectedRegion,
+                                      style: TextStyle(color: Colors.black45),
+                                    ),
                                     Icon(Icons.keyboard_arrow_down_outlined,
                                         color: Colors.black45)
                                   ],
                                 ),
                               ),
                             ),
-                            SizedBox(height: 15,),
+                            SizedBox(
+                              height: 15,
+                            ),
                             Container(
-                              width: MediaQuery
-                                  .of(context)
-                                  .size
-                                  .width * .9,
+                              width: MediaQuery.of(context).size.width * .9,
                               decoration: BoxDecoration(
-                                borderRadius: BorderRadius.all(Radius.circular(10)),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10)),
                                 color: Colors.white,
                               ),
-
                               child: TextFormField(
                                 keyboardType: TextInputType.text,
                                 focusNode: zoneNode,
                                 onFieldSubmitted: (value) {
-                                  FocusScope.of(context).requestFocus(streetNode);
+                                  FocusScope.of(context)
+                                      .requestFocus(streetNode);
                                 },
                                 validator: (value) {
                                   if (value.isEmpty) {
@@ -212,45 +225,40 @@ class _state extends State<AddAddress> {
                                   enabledBorder: new OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(10),
                                       borderSide: BorderSide(
-                                          color: Color(h.borderColor))
-                                  ),
+                                          color: Color(h.borderColor))),
                                   focusedBorder: new OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(10),
                                       borderSide: BorderSide(
-                                          color: Color(h.FocusBorderColor))
-                                  ),
+                                          color: Color(h.FocusBorderColor))),
                                   focusedErrorBorder: new OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(10),
                                       borderSide: BorderSide(
-                                          color: Color(h.ErorrBorderColor))
-                                  ),
+                                          color: Color(h.ErorrBorderColor))),
                                   errorBorder: new OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(10),
                                       borderSide: BorderSide(
-                                          color: Color(h.ErorrBorderColor))
-                                  ),
+                                          color: Color(h.ErorrBorderColor))),
                                   hintText: DemoLocalizations.of(context)
-                                      .title['addressName']
-                                  ,
+                                      .title['addressName'],
                                   errorStyle: TextStyle(fontSize: 0),
-                                  hintStyle: TextStyle(color: Colors.black45,
+                                  hintStyle: TextStyle(
+                                      color: Colors.black45,
                                       fontWeight: FontWeight.bold,
                                       fontSize: 12),
                                 ),
                                 controller: title,
                               ),
                             ),
-                            SizedBox(height: 15,),
+                            SizedBox(
+                              height: 15,
+                            ),
                             Container(
-                              width: MediaQuery
-                                  .of(context)
-                                  .size
-                                  .width * .9,
+                              width: MediaQuery.of(context).size.width * .9,
                               decoration: BoxDecoration(
-                                borderRadius: BorderRadius.all(Radius.circular(10)),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10)),
                                 color: Colors.white,
                               ),
-
                               child: TextFormField(
                                 keyboardType: TextInputType.text,
                                 focusNode: streetNode,
@@ -270,50 +278,46 @@ class _state extends State<AddAddress> {
                                   enabledBorder: new OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(10),
                                       borderSide: BorderSide(
-                                          color: Color(h.borderColor))
-                                  ),
+                                          color: Color(h.borderColor))),
                                   focusedBorder: new OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(10),
                                       borderSide: BorderSide(
-                                          color: Color(h.FocusBorderColor))
-                                  ),
+                                          color: Color(h.FocusBorderColor))),
                                   focusedErrorBorder: new OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(10),
                                       borderSide: BorderSide(
-                                          color: Color(h.ErorrBorderColor))
-                                  ),
+                                          color: Color(h.ErorrBorderColor))),
                                   errorBorder: new OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(10),
                                       borderSide: BorderSide(
-                                          color: Color(h.ErorrBorderColor))
-                                  ),
+                                          color: Color(h.ErorrBorderColor))),
                                   hintText: DemoLocalizations.of(context)
-                                      .title['street']
-                                  ,
+                                      .title['street'],
                                   errorStyle: TextStyle(fontSize: 0),
-                                  hintStyle: TextStyle(color: Colors.black45,
+                                  hintStyle: TextStyle(
+                                      color: Colors.black45,
                                       fontWeight: FontWeight.bold,
                                       fontSize: 12),
                                 ),
                                 controller: street,
                               ),
                             ),
-                            SizedBox(height: 15,),
+                            SizedBox(
+                              height: 15,
+                            ),
                             Container(
-                              width: MediaQuery
-                                  .of(context)
-                                  .size
-                                  .width * .9,
+                              width: MediaQuery.of(context).size.width * .9,
                               decoration: BoxDecoration(
-                                borderRadius: BorderRadius.all(Radius.circular(10)),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10)),
                                 color: Colors.white,
                               ),
-
                               child: TextFormField(
                                 keyboardType: TextInputType.text,
                                 focusNode: markNode,
                                 onFieldSubmitted: (value) {
-                                  FocusScope.of(context).requestFocus(phoneNode);
+                                  FocusScope.of(context)
+                                      .requestFocus(phoneNode);
                                 },
                                 validator: (value) {
                                   if (value.isEmpty) {
@@ -328,64 +332,60 @@ class _state extends State<AddAddress> {
                                   enabledBorder: new OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(10),
                                       borderSide: BorderSide(
-                                          color: Color(h.borderColor))
-                                  ),
+                                          color: Color(h.borderColor))),
                                   focusedBorder: new OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(10),
                                       borderSide: BorderSide(
-                                          color: Color(h.FocusBorderColor))
-                                  ),
+                                          color: Color(h.FocusBorderColor))),
                                   focusedErrorBorder: new OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(10),
                                       borderSide: BorderSide(
-                                          color: Color(h.ErorrBorderColor))
-                                  ),
+                                          color: Color(h.ErorrBorderColor))),
                                   errorBorder: new OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(10),
                                       borderSide: BorderSide(
-                                          color: Color(h.ErorrBorderColor))
-                                  ),
+                                          color: Color(h.ErorrBorderColor))),
                                   hintText: DemoLocalizations.of(context)
-                                      .title['landmark']
-                                  ,
+                                      .title['landmark'],
                                   errorStyle: TextStyle(fontSize: 0),
-                                  hintStyle: TextStyle(color: Colors.black45,
+                                  hintStyle: TextStyle(
+                                      color: Colors.black45,
                                       fontWeight: FontWeight.bold,
                                       fontSize: 12),
                                 ),
                                 controller: mark,
                               ),
                             ),
-                            SizedBox(height: 15,),
+                            SizedBox(
+                              height: 15,
+                            ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Container(
-                                    width: MediaQuery
-                                        .of(context)
-                                        .size
-                                        .width * .22,
+                                    width:
+                                        MediaQuery.of(context).size.width * .22,
                                     height: 47,
                                     decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(10)),
-                                      border: Border.all(width: 1,
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(10)),
+                                      border: Border.all(
+                                          width: 1,
                                           color: isError
                                               ? Color(h.ErorrBorderColor)
                                               : Color(h.borderColor)),
                                     ),
                                     alignment: Alignment.center,
                                     padding: EdgeInsets.only(
-                                        left: MediaQuery
-                                            .of(context)
-                                            .size
-                                            .width * .01, right: MediaQuery
-                                        .of(context)
-                                        .size
-                                        .width * .01
-                                    ),
-                                    child: /*Row(
+                                        left:
+                                            MediaQuery.of(context).size.width *
+                                                .01,
+                                        right:
+                                            MediaQuery.of(context).size.width *
+                                                .01),
+                                    child:
+                                        /*Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text("996+",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 12,color: Colors.black45),),
@@ -394,7 +394,7 @@ class _state extends State<AddAddress> {
                                 ],
                               )*/
 
-                                    Container(
+                                        Container(
                                       //width: MediaQuery.of(context).size.width*.22,
                                       alignment: Alignment.center,
                                       child: Directionality(
@@ -427,25 +427,21 @@ class _state extends State<AddAddress> {
                                           showOnlyCountryWhenClosed: false,
                                         ),
                                       ),
-                                    )
-                                ),
+                                    )),
                                 Container(
-                                  width: MediaQuery
-                                      .of(context)
-                                      .size
-                                      .width * .64,
+                                  width:
+                                      MediaQuery.of(context).size.width * .64,
                                   decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(10)),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(10)),
                                     color: Colors.white,
                                   ),
-
                                   child: TextFormField(
                                     keyboardType: TextInputType.phone,
                                     focusNode: phoneNode,
                                     onFieldSubmitted: (value) {
-                                      FocusScope.of(context).requestFocus(
-                                          phone2Node);
+                                      FocusScope.of(context)
+                                          .requestFocus(phone2Node);
                                     },
                                     validator: (value) {
                                       if (value.isEmpty) {
@@ -456,71 +452,77 @@ class _state extends State<AddAddress> {
                                     //textDirection: lang=="ar"?TextDirection.rtl:TextDirection.ltr,
                                     decoration: InputDecoration(
                                       contentPadding: EdgeInsets.only(
-                                          right: 15, left: 15, top: 0, bottom: 0),
+                                          right: 15,
+                                          left: 15,
+                                          top: 0,
+                                          bottom: 0),
                                       enabledBorder: new OutlineInputBorder(
-                                          borderRadius: BorderRadius.circular(10),
+                                          borderRadius:
+                                              BorderRadius.circular(10),
                                           borderSide: BorderSide(
-                                              color: Color(h.borderColor))
-                                      ),
+                                              color: Color(h.borderColor))),
                                       focusedBorder: new OutlineInputBorder(
-                                          borderRadius: BorderRadius.circular(10),
+                                          borderRadius:
+                                              BorderRadius.circular(10),
                                           borderSide: BorderSide(
-                                              color: Color(h.FocusBorderColor))
-                                      ),
-                                      focusedErrorBorder: new OutlineInputBorder(
-                                          borderRadius: BorderRadius.circular(10),
-                                          borderSide: BorderSide(
-                                              color: Color(h.ErorrBorderColor))
-                                      ),
+                                              color:
+                                                  Color(h.FocusBorderColor))),
+                                      focusedErrorBorder:
+                                          new OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                              borderSide: BorderSide(
+                                                  color: Color(
+                                                      h.ErorrBorderColor))),
                                       errorBorder: new OutlineInputBorder(
-                                          borderRadius: BorderRadius.circular(10),
+                                          borderRadius:
+                                              BorderRadius.circular(10),
                                           borderSide: BorderSide(
-                                              color: Color(h.ErorrBorderColor))
-                                      ),
+                                              color:
+                                                  Color(h.ErorrBorderColor))),
                                       hintText: DemoLocalizations.of(context)
-                                          .title['phone']
-                                      ,
+                                          .title['phone'],
                                       errorStyle: TextStyle(fontSize: 0),
-                                      hintStyle: TextStyle(color: Colors.black45,
+                                      hintStyle: TextStyle(
+                                          color: Colors.black45,
                                           fontWeight: FontWeight.bold,
                                           fontSize: 12),
                                     ),
                                     controller: phone,
                                   ),
                                 ),
-
                               ],
                             ),
-                            SizedBox(height: 15,),
+                            SizedBox(
+                              height: 15,
+                            ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Container(
-                                    width: MediaQuery
-                                        .of(context)
-                                        .size
-                                        .width * .22,
+                                    width:
+                                        MediaQuery.of(context).size.width * .22,
                                     height: 47,
                                     decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(10)),
-                                      border: Border.all(width: 1,
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(10)),
+                                      border: Border.all(
+                                          width: 1,
                                           color: isError
                                               ? Color(h.ErorrBorderColor)
                                               : Color(h.borderColor)),
                                     ),
                                     alignment: Alignment.center,
                                     padding: EdgeInsets.only(
-                                        left: MediaQuery
-                                            .of(context)
-                                            .size
-                                            .width * .01, right: MediaQuery
-                                        .of(context)
-                                        .size
-                                        .width * .01
-                                    ),
-                                    child: /*Row(
+                                        left:
+                                            MediaQuery.of(context).size.width *
+                                                .01,
+                                        right:
+                                            MediaQuery.of(context).size.width *
+                                                .01),
+                                    child:
+                                        /*Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text("996+",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 12,color: Colors.black45),),
@@ -529,7 +531,7 @@ class _state extends State<AddAddress> {
                                 ],
                               )*/
 
-                                    Container(
+                                        Container(
                                       //width: MediaQuery.of(context).size.width*.22,
                                       alignment: Alignment.center,
                                       child: Directionality(
@@ -562,25 +564,21 @@ class _state extends State<AddAddress> {
                                           showOnlyCountryWhenClosed: false,
                                         ),
                                       ),
-                                    )
-                                ),
+                                    )),
                                 Container(
-                                  width: MediaQuery
-                                      .of(context)
-                                      .size
-                                      .width * .64,
+                                  width:
+                                      MediaQuery.of(context).size.width * .64,
                                   decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(10)),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(10)),
                                     color: Colors.white,
                                   ),
-
                                   child: TextFormField(
                                     keyboardType: TextInputType.phone,
                                     focusNode: phone2Node,
                                     onFieldSubmitted: (value) {
-                                      FocusScope.of(context).requestFocus(
-                                          FocusNode());
+                                      FocusScope.of(context)
+                                          .requestFocus(FocusNode());
                                     },
                                     validator: (value) {
                                       if (value.isEmpty) {
@@ -591,64 +589,75 @@ class _state extends State<AddAddress> {
                                     //textDirection: lang=="ar"?TextDirection.rtl:TextDirection.ltr,
                                     decoration: InputDecoration(
                                       contentPadding: EdgeInsets.only(
-                                          right: 15, left: 15, top: 0, bottom: 0),
+                                          right: 15,
+                                          left: 15,
+                                          top: 0,
+                                          bottom: 0),
                                       enabledBorder: new OutlineInputBorder(
-                                          borderRadius: BorderRadius.circular(10),
+                                          borderRadius:
+                                              BorderRadius.circular(10),
                                           borderSide: BorderSide(
-                                              color: Color(h.borderColor))
-                                      ),
+                                              color: Color(h.borderColor))),
                                       focusedBorder: new OutlineInputBorder(
-                                          borderRadius: BorderRadius.circular(10),
+                                          borderRadius:
+                                              BorderRadius.circular(10),
                                           borderSide: BorderSide(
-                                              color: Color(h.FocusBorderColor))
-                                      ),
-                                      focusedErrorBorder: new OutlineInputBorder(
-                                          borderRadius: BorderRadius.circular(10),
-                                          borderSide: BorderSide(
-                                              color: Color(h.ErorrBorderColor))
-                                      ),
+                                              color:
+                                                  Color(h.FocusBorderColor))),
+                                      focusedErrorBorder:
+                                          new OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                              borderSide: BorderSide(
+                                                  color: Color(
+                                                      h.ErorrBorderColor))),
                                       errorBorder: new OutlineInputBorder(
-                                          borderRadius: BorderRadius.circular(10),
+                                          borderRadius:
+                                              BorderRadius.circular(10),
                                           borderSide: BorderSide(
-                                              color: Color(h.ErorrBorderColor))
-                                      ),
+                                              color:
+                                                  Color(h.ErorrBorderColor))),
                                       hintText: DemoLocalizations.of(context)
-                                          .title['Alternativephonenumber']
-                                      ,
+                                          .title['Alternativephonenumber'],
                                       errorStyle: TextStyle(fontSize: 0),
-                                      hintStyle: TextStyle(color: Colors.black45,
+                                      hintStyle: TextStyle(
+                                          color: Colors.black45,
                                           fontWeight: FontWeight.bold,
                                           fontSize: 12),
                                     ),
                                     controller: phone2,
                                   ),
                                 ),
-
                               ],
                             ),
-                            SizedBox(height: 15,),
-  Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  GestureDetector(
-                                    onTap: (){
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => PlacePicker(
-                                            apiKey: 'AIzaSyBHG1sJAP3tp8iIsHNd_McetWdmn14HDWI',   // Put YOUR OWN KEY here.
-                                            onPlacePicked: (result) {
-                                              //_pickedLocation = result;
-                                              print('${result.geometry.location},,,,,,,,resultltltl');
-                                              Navigator.of(context).pop();
-                                            },
-                                            // initialPosition: HomePage.kInitialPosition,
-                                            useCurrentLocation: true,
-                                          ),
+                            SizedBox(
+                              height: 15,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => PlacePicker(
+                                          apiKey:
+                                              'AIzaSyBHG1sJAP3tp8iIsHNd_McetWdmn14HDWI',
+                                          // Put YOUR OWN KEY here.
+                                          onPlacePicked: (result) {
+                                            //_pickedLocation = result;
+                                            print(
+                                                '${result.geometry.location},,,,,,,,resultltltl');
+                                            Navigator.of(context).pop();
+                                          },
+                                          // initialPosition: HomePage.kInitialPosition,
+                                          useCurrentLocation: true,
                                         ),
-                                      );
-                                    },
+                                      ),
+                                    );
+                                  },
 
 //                                    LocationResult result = await showLocationPicker(
 //                                        context,
@@ -666,100 +675,103 @@ class _state extends State<AddAddress> {
 //                                      // print('${_pickedLocation.latLng.toString()},,,,,,');
 //                                    });
 
-
 //                                     Navigator.push(context, GlobalFunction.route(SearchLocation()));
 //                                    setState(() {
 //                                      locationScreen = true;
 //                                    });
 //                                 await   _getCurrentLocation();
 
-                                    child: Container(
-                                      width: MediaQuery
-                                          .of(context)
-                                          .size
-                                          .width * .23,
-                                      height: MediaQuery
-                                          .of(context)
-                                          .size
-                                          .height * .07,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(10)),
-                                        border: Border.all(
-                                            color: isError ? Colors.red : Color(
-                                                h.borderColor), width: 1),
-                                        color: Colors.white,
-                                      ),
-                                      alignment: Alignment.center,
-                                      child: ImageIcon(
-                                        AssetImage("images/mapLocator.png"), size: 20,
-                                        color: Color(h.mainColor),),
+                                  child: Container(
+                                    width:
+                                        MediaQuery.of(context).size.width * .23,
+                                    height: MediaQuery.of(context).size.height *
+                                        .07,
+                                    decoration: BoxDecoration(
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(10)),
+                                      border: Border.all(
+                                          color: isError
+                                              ? Colors.red
+                                              : Color(h.borderColor),
+                                          width: 1),
+                                      color: Colors.white,
+                                    ),
+                                    alignment: Alignment.center,
+                                    child: ImageIcon(
+                                      AssetImage("images/mapLocator.png"),
+                                      size: 20,
+                                      color: Color(h.mainColor),
                                     ),
                                   ),
-                                  GestureDetector(
-
-                                    child: Container(
-                                      width: MediaQuery
-                                          .of(context)
-                                          .size
-                                          .width * .64,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(10)),
-                                        border: Border.all(
-                                            color: isError ? Colors.red : Color(
-                                                h.borderColor), width: 1),
-                                        color: Colors.white,
+                                ),
+                                GestureDetector(
+                                  child: Container(
+                                    width:
+                                        MediaQuery.of(context).size.width * .64,
+                                    decoration: BoxDecoration(
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(10)),
+                                      border: Border.all(
+                                          color: isError
+                                              ? Colors.red
+                                              : Color(h.borderColor),
+                                          width: 1),
+                                      color: Colors.white,
+                                    ),
+                                    child: TextFormField(
+                                      keyboardType: TextInputType.text,
+                                      onFieldSubmitted: (value) {
+                                        FocusScope.of(context)
+                                            .requestFocus(FocusNode());
+                                      },
+                                      enabled: false,
+                                      //textDirection: lang=="ar"?TextDirection.rtl:TextDirection.ltr,
+                                      decoration: InputDecoration(
+                                        contentPadding: EdgeInsets.only(
+                                            right: 15,
+                                            left: 15,
+                                            top: 0,
+                                            bottom: 0),
+                                        disabledBorder: new OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            borderSide: BorderSide(
+                                                color: Color(h.borderColor))),
+                                        focusedBorder: new OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            borderSide: BorderSide(
+                                                color:
+                                                    Color(h.FocusBorderColor))),
+                                        focusedErrorBorder:
+                                            new OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                borderSide: BorderSide(
+                                                    color: Color(
+                                                        h.ErorrBorderColor))),
+                                        errorBorder: new OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            borderSide: BorderSide(
+                                                color:
+                                                    Color(h.ErorrBorderColor))),
+                                        hintText: newPlace == null
+                                            ? DemoLocalizations.of(context)
+                                                .title['locationonmap']
+                                            : "${newPlace[0].country},${newPlace[0].subAdministrativeArea},${newPlace[0].street} ",
+                                        errorStyle: TextStyle(fontSize: 0),
+                                        hintStyle: TextStyle(
+                                            color: Colors.black45,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 12),
                                       ),
-
-                                      child: TextFormField(
-                                        keyboardType: TextInputType.text,
-                                        onFieldSubmitted: (value) {
-                                          FocusScope.of(context).requestFocus(
-                                              FocusNode());
-                                        },
-                                        enabled: false,
-                                        //textDirection: lang=="ar"?TextDirection.rtl:TextDirection.ltr,
-                                        decoration: InputDecoration(
-                                          contentPadding: EdgeInsets.only(
-                                              right: 15, left: 15, top: 0, bottom: 0),
-                                          disabledBorder: new OutlineInputBorder(
-                                              borderRadius: BorderRadius.circular(10),
-                                              borderSide: BorderSide(
-                                                  color: Color(h.borderColor))
-                                          ),
-                                          focusedBorder: new OutlineInputBorder(
-                                              borderRadius: BorderRadius.circular(10),
-                                              borderSide: BorderSide(
-                                                  color: Color(h.FocusBorderColor))
-                                          ),
-                                          focusedErrorBorder: new OutlineInputBorder(
-                                              borderRadius: BorderRadius.circular(10),
-                                              borderSide: BorderSide(
-                                                  color: Color(h.ErorrBorderColor))
-                                          ),
-                                          errorBorder: new OutlineInputBorder(
-                                              borderRadius: BorderRadius.circular(10),
-                                              borderSide: BorderSide(
-                                                  color: Color(h.ErorrBorderColor))
-                                          ),
-                                          hintText: newPlace == null
-                                              ? DemoLocalizations.of(context)
-                                              .title['locationonmap']
-                                              : "${newPlace[0].country},${newPlace[0]
-                                              .subAdministrativeArea},${newPlace[0]
-                                              .street} ",
-                                          errorStyle: TextStyle(fontSize: 0),
-                                          hintStyle: TextStyle(color: Colors.black45,
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 12),
-                                        ),
-                                        controller: location,
-                                      ),
+                                      controller: location,
                                     ),
                                   ),
-                                ],
-                              ),
+                                ),
+                              ],
+                            ),
 
                             /*     SizedBox(height: 15,),
                            ClipRRect(
@@ -770,116 +782,121 @@ class _state extends State<AddAddress> {
                                fit: BoxFit.fill,
                              ),
                            ),*/
-                            SizedBox(height: 15,),
+                            SizedBox(
+                              height: 15,
+                            ),
                             InkWell(
                               onTap: () async {
-                                SharedPreferences prefs = await SharedPreferences.getInstance();
-                                if(SelectedRegionId=='')
-                                {
+                                SharedPreferences prefs =
+                                    await SharedPreferences.getInstance();
+                                if (SelectedRegionId == '') {
                                   Toast.show(
-                                      DemoLocalizations.of(context).title['regionrequired'],
+                                      DemoLocalizations.of(context)
+                                          .title['regionrequired'],
                                       context,
                                       duration: Toast.LENGTH_LONG,
                                       gravity: Toast.BOTTOM);
-                                }
-                                else
-                                  { if (formKey.currentState.validate()) {
-                                    if(phone.text.substring(0,1)=="0"){
+                                } else {
+                                  if (formKey.currentState.validate()) {
+                                    if (phone.text.substring(0, 1) == "0") {
                                       setState(() {
-                                        phone.text=phone.text.substring(1);
+                                        phone.text = phone.text.substring(1);
                                       });
                                     }
-                                    if(phone2.text!=""){
+                                    if (phone2.text != "") {
                                       print(phone2.text);
-                                      print("ssssssssssssssssssssssssssssssssssssssssssss");
-                                      if(phone2.text.substring(0,1)=="0"){
+                                      print(
+                                          "ssssssssssssssssssssssssssssssssssssssssssss");
+                                      if (phone2.text.substring(0, 1) == "0") {
                                         setState(() {
-                                          phone2.text=phone2.text.substring(1);
+                                          phone2.text =
+                                              phone2.text.substring(1);
                                         });
                                       }
                                     }
-                                    Map<String,dynamic>responce = await addressServices.addAddressService(
-                                        prefs.getString("UserId"),
-                                        title.text,
-                                        street.text,
-                                        mark.text,
-                                       '34.3434','23.2323',
-                                       // _pickedLocation.adrAddress.. .toString(),
-                                        //prefs.getString("lat"),
-                                      //  _pickedLocation.latLng.longitude.toString(),
-                                        phone.text,
-                                        phone2.text,
-                                        SelectedRegionId);
+                                    Map<String, dynamic> responce =
+                                        await addressServices.addAddressService(
+                                            prefs.getString("UserId"),
+                                            title.text,
+                                            street.text,
+                                            mark.text,
+                                            '34.3434',
+                                            '23.2323',
+                                            // _pickedLocation.adrAddress.. .toString(),
+                                            //prefs.getString("lat"),
+                                            //  _pickedLocation.latLng.longitude.toString(),
+                                            phone.text,
+                                            phone2.text,
+                                            SelectedRegionId);
                                     if (responce["StatusCode"] == 200) {
                                       setState(() {
                                         ParentPage.address = null;
                                       });
                                       //  Navigator.pushNamedAndRemoveUntil(context, "/Adresses", (route) => false);
                                       //Navigator.pop(context);
-                                      if (type == "confirm")
+                                      if (type == "confirm") {
+
                                         Navigator.push(context,
                                             GlobalFunction.routeBottom(
                                                 ConfirmOrder3(1)));
-                                      else
-                                        Navigator.of(context)
-                                            .pop();
-
+                                      } else{
+                                        Navigator.pop(context);
+                                        Future.delayed(Duration(seconds: 0),
+                                              () async {
+                                                await Navigator.pushReplacement(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            Adresses()));
+                                              });}
                                       Toast.show(
-                                        //addaddressdone
+                                          //addaddressdone
                                           DemoLocalizations.of(context)
-                                              .title['addaddressdone']
-                                          , context,
+                                              .title['addaddressdone'],
+                                          context,
                                           duration: Toast.LENGTH_SHORT,
                                           gravity: Toast.BOTTOM);
-                                    }
-                                    else {
+                                    } else {
                                       Toast.show(
                                           "${responce["Message"]}", context,
                                           duration: Toast.LENGTH_SHORT,
                                           gravity: Toast.BOTTOM);
                                     }
-
-                                  }
-                                  else {
+                                  } else {
                                     setState(() {
                                       isError = true;
                                     });
-                                  }}
-
-
+                                  }
+                                }
                               },
                               child: Container(
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10),
-                                  color: Color(h.blueColor),),
-                                height: MediaQuery
-                                    .of(context)
-                                    .size
-                                    .height * .065,
-                                width: MediaQuery
-                                    .of(context)
-                                    .size
-                                    .width * .9,
+                                  color: Color(h.blueColor),
+                                ),
+                                height:
+                                    MediaQuery.of(context).size.height * .065,
+                                width: MediaQuery.of(context).size.width * .9,
                                 alignment: Alignment.center,
-                                child: Text(DemoLocalizations.of(context)
-                                    .title['confirm']
-                                  , style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.bold),),
+                                child: Text(
+                                  DemoLocalizations.of(context)
+                                      .title['confirm'],
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold),
+                                ),
                               ),
                             ),
-                            SizedBox(height: 30,),
+                            SizedBox(
+                              height: 30,
+                            ),
                           ],
                         ),
                       ),
-                ),
-                   ),
-                 )
-
-
-
-      ),
+                    ),
+                  ),
+                )),
     )
 //    SafeArea(
 //      child: Scaffold(
@@ -1211,10 +1228,12 @@ class _state extends State<AddAddress> {
 //
 //      ),
 //    )
-    ;
+        ;
   }
+
   Response response;
-  Map<String, dynamic>data;
+  Map<String, dynamic> data;
+
   getLocatinResult(String text) async {
     var api_key = "AIzaSyBHG1sJAP3tp8iIsHNd_McetWdmn14HDWI";
     var type = "(regions)";
@@ -1225,111 +1244,111 @@ class _state extends State<AddAddress> {
     print(response.data["predictions"][0]["description"]);
     print("**********************************");
   }
+
   SelectRegion(BuildContext context) {
     showDialog(
         context: context,
-        builder: (BuildContext context) =>
-            Dialog(
+        builder: (BuildContext context) => Dialog(
               child: Container(
-                width: MediaQuery
-                    .of(context)
-                    .size
-                    .width * .4,
-                decoration: BoxDecoration(color: Colors.black12,
+                width: MediaQuery.of(context).size.width * .4,
+                decoration: BoxDecoration(
+                  color: Colors.black12,
                   // borderRadius: BorderRadius.all(Radius.circular(20))
                   // border: Border.all(color: Colors.black12,width: 2.0)
-                )
-                , padding: EdgeInsets.only(
-                top: MediaQuery
-                    .of(context)
-                    .size
-                    .height * 0.01,
-                bottom: MediaQuery
-                    .of(context)
-                    .size
-                    .height * 0.01,
-                left: MediaQuery
-                    .of(context)
-                    .size
-                    .width * 0.05,
-                right: MediaQuery
-                    .of(context)
-                    .size
-                    .width * 0.05,
-              ),
-
-
+                ),
+                padding: EdgeInsets.only(
+                  top: MediaQuery.of(context).size.height * 0.01,
+                  bottom: MediaQuery.of(context).size.height * 0.01,
+                  left: MediaQuery.of(context).size.width * 0.05,
+                  right: MediaQuery.of(context).size.width * 0.05,
+                ),
                 child: SingleChildScrollView(
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox(height: 5,),
+                      SizedBox(
+                        height: 5,
+                      ),
                       Container(
-                        width: MediaQuery.of(context).size.width*.66,
+                        width: MediaQuery.of(context).size.width * .66,
                         decoration: BoxDecoration(
-                          borderRadius:BorderRadius.all(Radius.circular(10)),
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
                         ),
                         child: TextFormField(
-                          keyboardType:TextInputType.text,
-                          onChanged: (val){
-                           if(val.isNotEmpty){
-                             setState(() {
-                               RegionList=[];
-                             });
-                             for(int i=0;i<RegionList0.length;i++){
-                               if(RegionList0[i].region.contains(val)){
-                                 RegionList.add(RegionList0[i]);
-                               }
-                               setState(() {
-                               });
-                             }
-                             print(RegionList.length);
-                             print("1111111111111111111111111111111111111111111111111111");
-                           }else{
-                             setState(() {
-                               RegionList=RegionList0;
-                             });
-                           }
+                          keyboardType: TextInputType.text,
+                          onChanged: (val) {
+                            if (val.isNotEmpty) {
+                              setState(() {
+                                RegionList = [];
+                              });
+                              for (int i = 0; i < RegionList0.length; i++) {
+                                if (RegionList0[i].region.contains(val)) {
+                                  RegionList.add(RegionList0[i]);
+                                }
+                                setState(() {});
+                              }
+                              print(RegionList.length);
+                              print(
+                                  "1111111111111111111111111111111111111111111111111111");
+                            } else {
+                              setState(() {
+                                RegionList = RegionList0;
+                              });
+                            }
                           },
-                          onFieldSubmitted: (value){
+                          onFieldSubmitted: (value) {
                             FocusScope.of(context).requestFocus(FocusNode());
                           },
-                          validator: (value){
-                            if(value.isEmpty){
+                          validator: (value) {
+                            if (value.isEmpty) {
                               return null;
                             }
                             return null;
                           },
                           textAlign: TextAlign.end,
                           decoration: InputDecoration(
-                              errorStyle: TextStyle(fontWeight: FontWeight.bold,fontSize: 12,color: Color(h.mainColor)),
-                              contentPadding: EdgeInsets.only(right: 10,left: 10,top: 0,bottom: 0),
+                              errorStyle: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 12,
+                                  color: Color(h.mainColor)),
+                              contentPadding: EdgeInsets.only(
+                                  right: 10, left: 10, top: 0, bottom: 0),
                               enabledBorder: new OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
-                                  borderSide: BorderSide(color: Colors.black38)
-                              ),
-                              focusedBorder:  new OutlineInputBorder(
+                                  borderSide:
+                                      BorderSide(color: Colors.black38)),
+                              focusedBorder: new OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
-                                  borderSide: BorderSide(color: Color(h.FocusBorderColor))
-                              ),
-                              focusedErrorBorder:new OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Color(h.FocusBorderColor))),
+                              focusedErrorBorder: new OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
-                                  borderSide: BorderSide(color: Color(h.ErorrBorderColor))
-                              ),
-                              errorBorder:new OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Color(h.ErorrBorderColor))),
+                              errorBorder: new OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
-                                  borderSide: BorderSide(color: Color(h.ErorrBorderColor))
+                                  borderSide: BorderSide(
+                                      color: Color(h.ErorrBorderColor))),
+                              prefixIcon: Icon(
+                                Icons.search,
+                                size: 20,
+                                color: Colors.black45,
                               ),
-                              prefixIcon: Icon(Icons.search,size: 20,color: Colors.black45,),
                               hintText: 'ابحث',
-                              hintStyle: TextStyle(fontWeight: FontWeight.bold,fontSize: 12,color: Colors.black45)
-                          ),
+                              hintStyle: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 12,
+                                  color: Colors.black45)),
                           controller: searchzone,
                         ),
                       ),
-                      SizedBox(height: 5,),
-                      ListView.builder(shrinkWrap: true, primary: false,
+                      SizedBox(
+                        height: 5,
+                      ),
+                      ListView.builder(
+                        shrinkWrap: true,
+                        primary: false,
                         itemCount: RegionList.length,
                         itemBuilder: (context, index) {
                           return GestureDetector(
@@ -1341,40 +1360,38 @@ class _state extends State<AddAddress> {
                               Navigator.pop(context);
                             },
                             child: Container(
-                                margin: EdgeInsets.only(bottom: MediaQuery
-                                    .of(context)
-                                    .size
-                                    .height * .005, top: MediaQuery
-                                    .of(context)
-                                    .size
-                                    .height * .005),
-                                padding: EdgeInsets.only(bottom: MediaQuery
-                                    .of(context)
-                                    .size
-                                    .height * .005, top: MediaQuery
-                                    .of(context)
-                                    .size
-                                    .height * .005),
+                                margin: EdgeInsets.only(
+                                    bottom: MediaQuery.of(context).size.height *
+                                        .005,
+                                    top: MediaQuery.of(context).size.height *
+                                        .005),
+                                padding: EdgeInsets.only(
+                                    bottom: MediaQuery.of(context).size.height *
+                                        .005,
+                                    top: MediaQuery.of(context).size.height *
+                                        .005),
                                 decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(5)),
-                                    color: Color(h.blueColor)
-                                ),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(5)),
+                                    color: Color(h.blueColor)),
                                 alignment: Alignment.center,
-                                child: Text(RegionList[index].region,
-                                  style: TextStyle(color: Colors.white),)),
+                                child: Text(
+                                  RegionList[index].region,
+                                  style: TextStyle(color: Colors.white),
+                                )),
                           );
                         },
                       ),
                     ],
                   ),
                 ),
-
               ),
             ));
   }
+
   Completer<GoogleMapController> _controller = Completer();
   final Set<Marker> listMarkers = {};
+
   makeMarker(double lat, double lng) async {
     newPlace = await placemarkFromCoordinates(lat, lng);
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -1384,7 +1401,7 @@ class _state extends State<AddAddress> {
         onDragEnd: (LatLng) async {
           print(LatLng);
           newPlace =
-          await placemarkFromCoordinates(LatLng.latitude, LatLng.longitude);
+              await placemarkFromCoordinates(LatLng.latitude, LatLng.longitude);
           prefs.setString("lat", LatLng.latitude.toString());
           prefs.setString("lng", LatLng.longitude.toString());
           ParentPage.address = newPlace[0].country + " " + newPlace[0].street;
@@ -1393,64 +1410,64 @@ class _state extends State<AddAddress> {
           print(
               "ssssssssss2222222222222222222222222222222222222222222222222222");
         },
-        position: LatLng(
-            double.parse(this.latitude), double.parse(this.longitude)),
-        infoWindow: InfoWindow(title: DemoLocalizations.of(context)
-            .title['currentlocation']
-        ),
+        position:
+            LatLng(double.parse(this.latitude), double.parse(this.longitude)),
+        infoWindow: InfoWindow(
+            title: DemoLocalizations.of(context).title['currentlocation']),
         icon: await BitmapDescriptor.fromAssetImage(
-            ImageConfiguration(size: Size(48, 48)), 'images/logo.png')
+                ImageConfiguration(size: Size(48, 48)), 'images/logo.png')
             .then((onValue) {
           customIcon = onValue;
-        })
-    ));
-    map(latitude,longitude,listMarkers);
+        })));
+    map(latitude, longitude, listMarkers);
     setState(() {
-      c  =new CameraPosition(
-        // bearing: 30,
-          target: LatLng(lat,lng),
+      c = new CameraPosition(
+          // bearing: 30,
+          target: LatLng(lat, lng),
           //tilt: 45,
-          zoom: 15
-      );
+          zoom: 15);
     });
 //newPlace[0].country},${newPlace[0]
 //                                            .subAdministrativeArea},${newPlace[0]
 //                                            .street
-    title.text=newPlace[0].country.toString()+newPlace[0].subAdministrativeArea.toString();
+    title.text = newPlace[0].country.toString() +
+        newPlace[0].subAdministrativeArea.toString();
     street.text = newPlace[0].street.toString();
   }
-  BitmapDescriptor customIcon;
-  GoogleMapsPlaces _places = GoogleMapsPlaces(apiKey: "AIzaSyBHG1sJAP3tp8iIsHNd_McetWdmn14HDWI");
-  Future<Null> displayPrediction(Prediction p) async {
 
+  BitmapDescriptor customIcon;
+  GoogleMapsPlaces _places =
+      GoogleMapsPlaces(apiKey: "AIzaSyBHG1sJAP3tp8iIsHNd_McetWdmn14HDWI");
+
+  Future<Null> displayPrediction(Prediction p) async {
     print("00000000000000000000000000000");
     if (p != null) {
       print(p.placeId);
       PlacesDetailsResponse detail =
-      await _places.getDetailsByPlaceId(p.placeId);
+          await _places.getDetailsByPlaceId(p.placeId);
 
       var placeId = p.placeId;
-         latitude = detail.result.geometry.location.lat.toString();
-          longitude = detail.result.geometry.location.lng.toString();
+      latitude = detail.result.geometry.location.lat.toString();
+      longitude = detail.result.geometry.location.lng.toString();
 
       makeMarker(double.parse(latitude), double.parse(longitude));
       setState(() {
-        c  =CameraPosition(
-          // bearing: 30,
+        c = CameraPosition(
+            // bearing: 30,
             target: LatLng(double.parse(latitude), double.parse(longitude)),
             //tilt: 45,
-            zoom: 15
-        );
+            zoom: 15);
       });
-      setState(() {
-      });
-      print("____________________________________________________________________________________________________");
+      setState(() {});
+      print(
+          "____________________________________________________________________________________________________");
     }
   }
- Widget map(String latitude,String longitude, Set<Marker> listMarkers ){
-    return   Expanded(
+
+  Widget map(String latitude, String longitude, Set<Marker> listMarkers) {
+    return Expanded(
       child: GoogleMap(
-        myLocationEnabled :true,
+        myLocationEnabled: true,
         zoomControlsEnabled: true,
         mapType: MapType.normal,
         onTap: (LatLng) {
